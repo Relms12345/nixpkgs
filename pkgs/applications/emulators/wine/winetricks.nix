@@ -45,6 +45,8 @@ stdenv.mkDerivation (finalAttrs: {
     substituteInPlace src/winetricks \
       --replace-fail 'command -v unrar' 'command -v unrar-free' \
       --replace-fail 'w_try unrar' 'w_try unrar-free'
+
+    sed -i 's/_W_ob_output="\$(od.*/_W_ob_output="3e"/' src/winetricks
   '';
 
   postInstall =
