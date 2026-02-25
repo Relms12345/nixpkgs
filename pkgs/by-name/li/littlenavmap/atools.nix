@@ -7,13 +7,13 @@
 
 stdenv.mkDerivation rec {
   pname = "atools";
-  version = "4.0.17";
+  version = "4.0.18";
 
   src = fetchFromGitHub {
     owner = "albar965";
     repo = "atools";
     tag = "v${version}";
-    hash = "sha256-R5CbMdT8UsPiiIXFhmdAmNa1fKLPfUrWunlbwsHOVow=";
+    hash = "sha256-EY611n/MCCKVXy+eUVhBpEGVcw5kwUsNeyhCRrj1sOo=";
   };
 
   nativeBuildInputs = [

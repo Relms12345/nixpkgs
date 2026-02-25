@@ -8,7 +8,7 @@
 }:
 let
   atools = callPackage ./atools.nix { };
-  marble = libsForQt5.marble.overrideAttrs (self: {
+  marble = libsForQt5.marble.overrideAttrs (_self: {
     version = "0.25.5";
 
     src = fetchFromGitHub {
@@ -67,13 +67,13 @@ let
 in
 stdenv.mkDerivation (finalAttrs: {
   pname = "littlenavmap";
-  version = "3.0.17";
+  version = "3.0.18";
 
   src = fetchFromGitHub {
     owner = "albar965";
     repo = "littlenavmap";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-/1YB2uEQzT0K6IylpWDqOaMSENDR9GuyJNty+2C8kXM=";
+    hash = "sha256-8D4Kh+DZbTxgzX2LVTHNRVHCCZq81Fmcspjbrur5FbQ=";
   };
 
   nativeBuildInputs = [
