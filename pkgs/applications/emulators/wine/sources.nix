@@ -259,13 +259,13 @@ rec {
 
   wayland = pkgs.lib.warnOnInstantiate "building wine with `wineRelease = \"wayland\"` is deprecated. Wine now builds with the wayland driver by default." stable; # added 2025-01-23
 
-  winetricks = fetchFromGitHub rec {
+  winetricks = fetchFromGitHub {
     # https://github.com/Winetricks/winetricks/releases
     version = "20260125";
-    hash = "sha256-uIBVESebsH7rXnxWd/qlrZxcG7Y486PctHzcLz29HDk=";
+    hash = "sha256-DYLzT/1ajMakfxWz8aY6w6DgUBCJLFPUf/UQNWVV6aw=";
     owner = "Winetricks";
     repo = "winetricks";
-    rev = version;
+    rev = "08304e81f9ac9a83c552a6bd78689040d174bf95";
 
     updateScript = writeShellScript "update-winetricks" ''
       ${updateScriptPreamble}
