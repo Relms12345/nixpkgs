@@ -15,26 +15,18 @@
   libmicrohttpd,
   perl,
   python3,
-  fetchpatch,
 }:
 
-stdenv.mkDerivation (finalAttrs: {
+stdenv.mkDerivation {
   pname = "ola";
-  version = "0.10.9";
+  version = "0.10.9-unstable-2026-06-18";
 
   src = fetchFromGitHub {
     owner = "OpenLightingProject";
     repo = "ola";
-    tag = finalAttrs.version;
-    hash = "sha256-8w8ZT3D/+8Pxl9z2KTXeydVxE5xiPjxZevgmMFgrblU=";
+    rev = "99b26c65d45e807032c1337ca7ebf1ac51ff3995";
+    hash = "sha256-ajHsSsEsYDmdMCh/K5wD0WSSOpSTcwyH8J6/zRi5OPs=";
   };
-  patches = [
-    # Fix build error with GCC 14 due to stricter C++20 compliance (template-id in constructors)
-    (fetchpatch {
-      url = "https://github.com/OpenLightingProject/ola/commit/d9b9c78645c578adb7c07b692842e841c48310be.patch";
-      hash = "sha256-BplSqQv8ztWMpiX/M3/3wvf6LsPTBglh48gHlUoM6rw=";
-    })
-  ];
   nativeBuildInputs = [
     autoreconfHook
     bison
@@ -54,7 +46,7 @@ stdenv.mkDerivation (finalAttrs: {
     python3
   ];
   propagatedBuildInputs = [
-    (python3.pkgs.protobuf4.override { protobuf = protobuf_21; })
+    (python3.pkgs.protobuf.override { protobuf = protobuf_21; })
     python3.pkgs.numpy
   ];
 
@@ -73,4 +65,4 @@ stdenv.mkDerivation (finalAttrs: {
     ];
     platforms = lib.platforms.all;
   };
-})
+}

@@ -2,76 +2,93 @@
   lib,
   stdenv,
   fetchFromGitHub,
+  cmake,
+  ninja,
   pkg-config,
   udevCheckHook,
   udev,
-  libsForQt5,
   alsa-lib,
+  fftw,
   ola,
   libftdi1,
+  libusb1,
   libusb-compat-0_1,
   libsndfile,
-  libmad,
+  qt6,
+  pipewire,
 }:
 
 stdenv.mkDerivation rec {
   pname = "qlcplus";
-  version = "5.0.0";
+  version = "5.2.2";
 
   src = fetchFromGitHub {
     owner = "mcallegari";
     repo = "qlcplus";
     rev = "QLC+_${version}";
-    hash = "sha256-gEwcTIJhY78Ts0lUn4MVciV7sPIBkqlxPMa9I1nTHO0=";
+    hash = "sha256-e8KyuCnzTUz/f6cfT7LyUQ9snaFBnE5WTc4FP7jhdRY=";
   };
 
   nativeBuildInputs = [
-    libsForQt5.qmake
+    cmake
+    ninja
     pkg-config
     udevCheckHook
-    libsForQt5.wrapQtAppsHook
-  ];
-  buildInputs = [
-    udev
-    libsForQt5.qtmultimedia
-    libsForQt5.qtscript
-    libsForQt5.qtserialport
-    libsForQt5.qtwebsockets
-    alsa-lib
-    ola
-    libftdi1
-    libusb-compat-0_1
-    libsndfile
-    libmad
+
+    qt6.qttools
+    qt6.wrapQtAppsHook
   ];
 
-  qmakeFlags = [ "INSTALLROOT=$(out)" ];
+  buildInputs = [
+    udev
+    alsa-lib
+    fftw
+    ola
+    libftdi1
+    libusb1
+    libusb-compat-0_1
+    libsndfile
+    pipewire
+    qt6.qtbase
+    qt6.qtdeclarative
+    qt6.qtmultimedia
+    qt6.qtserialport
+    qt6.qtsvg
+    qt6.qtwebsockets
+    qt6.qt3d
+  ];
 
   postPatch = ''
     patchShebangs .
-    sed -i -e '/unix:!macx:INSTALLROOT += \/usr/d' \
-            -e "s@\$\$LIBSDIR/qt4/plugins@''${qtPluginPrefix}@" \
-            -e "s@/etc/udev/rules.d@''${out}/lib/udev/rules.d@" \
-      variables.pri
 
-    # Fix gcc-13 build failure by removing blanket -Werror.
-    fgrep Werror variables.pri
-    substituteInPlace variables.pri --replace-fail "QMAKE_CXXFLAGS += -Werror" ""
+    substituteInPlace variables.cmake \
+      --replace-fail \
+        'set(INSTALLROOT "/usr")' \
+        "set(INSTALLROOT \"$out\")" \
+      --replace-fail \
+        'set(UDEVRULESDIR "/etc/udev/rules.d")' \
+        "set(UDEVRULESDIR \"$out/lib/udev/rules.d\")"
   '';
 
-  enableParallelBuilding = true;
+  cmakeFlags = [
+    "-Dqmlui=ON"
+    "-DCMAKE_INSTALL_LIBDIR=lib"
+    "-DCMAKE_INSTALL_RPATH=${placeholder "out"}/lib"
+  ];
+
+  qtWrapperArgs = [
+    "--unset QT_STYLE_OVERRIDE"
+    "--set QT_QUICK_CONTROLS_STYLE Fusion"
+    "--prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath [ pipewire ]}"
+  ];
 
   doInstallCheck = true;
 
-  postInstall = ''
-    ln -sf $out/lib/*/libqlcplus* $out/lib
-  '';
-
   meta = {
-    description = "Free and cross-platform software to control DMX or analog lighting systems like moving heads, dimmers, scanners etc";
-    maintainers = [ ];
-    license = lib.licenses.asl20;
-    platforms = lib.platforms.all;
+    description = "Free software to control DMX and analog lighting systems";
     homepage = "https://www.qlcplus.org/";
+    license = lib.licenses.asl20;
+    platforms = lib.platforms.linux;
+    mainProgram = "qlcplus-qml";
   };
 }
