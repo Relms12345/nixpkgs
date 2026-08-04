@@ -139,7 +139,7 @@ let
     owner = "NVIDIA";
     repo = "cutlass";
     tag = "v4.4.2";
-    hash = "sha256-0q9Ad0Z6E/rO2PdM4uQc8H0E0qs9uKc3reHepiHhjEc=";
+    hash = lib.fakeHash;
   };
 
   # FlashMLA's Blackwell (SM100) kernels were developed against CUTLASS v3.9.0
@@ -153,7 +153,7 @@ let
     owner = "NVIDIA";
     repo = "cutlass";
     rev = "147f5673d0c1c3dcf66f78d677fd647e4a020219";
-    hash = "sha256-dHQto08IwTDOIuFUp9jwm1MWkFi8v2YJ/UESrLuG71g=";
+    hash = lib.fakeHash;
   };
 
   # grep for DEEPGEMM_UPSTREAM_TAG in the following file
@@ -161,8 +161,8 @@ let
   deepgemm = fetchFromGitHub {
     owner = "deepseek-ai";
     repo = "DeepGEMM";
-    rev = "891d57b4db1071624b5c8fa0d1e51cb317fa709f";
-    hash = "sha256-sQM8SFkcDJmzyvKl1nv+nkwWaHvvo7mOGyNot2oduJg=";
+    rev = "8b1392b978f5a03c828dd1711090d7fb50958b8a";
+    hash = lib.fakeHash;
     fetchSubmodules = true;
   };
 
@@ -177,8 +177,8 @@ let
       name = "FlashMLA-source";
       owner = "vllm-project";
       repo = "FlashMLA";
-      rev = "a6ec2ba7bd0a7dff98b3f4d3e6b52b159c48d78b";
-      hash = "sha256-Oj37H0swZdxaprpaHq0XfOCagc0ypYKpS8e6JzqcDQg=";
+      rev = "0397728d511c4e3d94ea3a01d8dda8654525a611";
+      hash = lib.fakeHash;
     };
 
     dontConfigure = true;
@@ -199,18 +199,18 @@ let
   fmha-sm100 = fetchFromGitHub {
     owner = "vllm-project";
     repo = "MSA";
-    rev = "fee783153f3efe57e3e933c5cb7e267a7cebcfb5";
-    hash = "sha256-4yNoYnGK0eElgI01d+n0Hy54oVZLmETVRwnj2Q1/dEY=";
+    rev = "087c161814d4d9c735b46c21212a09e5f8eb92fa";
     fetchSubmodules = true;
+    hash = lib.fakeHash;
   };
 
   # grep for DEFAULT_TRITON_KERNELS_TAG in the following file
   # https://github.com/vllm-project/vllm/blob/v${version}/cmake/external_projects/triton_kernels.cmake
   triton-kernels = fetchFromGitHub {
-    owner = "triton-lang";
+    owner = "ROCm";
     repo = "triton";
-    tag = "v3.6.0";
-    hash = "sha256-JFSpQn+WsNnh7CAPlcpOcUp0nyKXNbJEANdXqmkt4Tc=";
+    rev = "0f380657dbf3ee86eb57558ff71df24f03b5d4e7";
+    hash = "sha256-UQ+N7JJNtk9ZlleeoIhwxwtpmX9+cc2WkyrliS9j5Aw=";
   };
 
   # grep for GIT_TAG in the following file
@@ -219,8 +219,8 @@ let
     name = "qutlass-source";
     owner = "IST-DASLab";
     repo = "qutlass";
-    rev = "830d2c4537c7396e14a02a46fbddd18b5d107c65";
-    hash = "sha256-aG4qd0vlwP+8gudfvHwhtXCFmBOJKQQTvcwahpEqC84=";
+    rev = "e74319e3405ce6d71965732880f5dc1f52371f64";
+    hash = lib.fakeHash;
   };
 
   vllm-flash-attn' = lib.defaultTo (stdenv.mkDerivation {
@@ -234,8 +234,8 @@ let
       name = "flash-attention-source";
       owner = "vllm-project";
       repo = "flash-attention";
-      rev = "803020a8fa15407871341d41eba4919ade2ee1ee";
-      hash = "sha256-Ioq6C7jWvuCs3OGoQV0jeih2YGhdxLB2WAp1a2pe024=";
+      rev = "06bdd47c0d0383daf6a2ff0c418faff9c6da16e5";
+      hash = lib.fakeHash;
     };
 
     patches = [
@@ -268,6 +268,15 @@ let
       cp -rva . $out
     '';
   }) vllm-flash-attn;
+
+  # grep for GIT_TAG in the following file
+  # https://github.com/vllm-project/vllm/blob/v${version}/cmake/external_projects/tml-fa4.cmake
+  tml-fa4 = fetchFromGitHub {
+    owner = "vllm-project";
+    repo = "tml-fa4";
+    rev = "b206834606ed5b5f21f8eed6b0683f528ea9cf7d";
+    hash = lib.fakeHash;
+  };
 
   cpuSupport = !cudaSupport && !rocmSupport;
 
@@ -370,14 +379,14 @@ in
 
 buildPythonPackage.override { stdenv = torch.stdenv; } (finalAttrs: {
   pname = "vllm";
-  version = "0.24.0";
+  version = "0.30.0";
   pyproject = true;
 
   src = fetchFromGitHub {
     owner = "vllm-project";
     repo = "vllm";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-ArmNLA71YRNpBAMlWxwBzUroMFjhyZ2ZsjX8JNc4pH4=";
+    hash = "sha256-VCyNfE6r+lP0Yn5qmOqOU5VI9VrGCBNldMne7Jq86xI=";
   };
 
   cargoRoot = "rust";
@@ -388,7 +397,7 @@ buildPythonPackage.override { stdenv = torch.stdenv; } (finalAttrs: {
       src
       cargoRoot
       ;
-    hash = "sha256-Kdp0+NzDBs9S57XUVNmV7q1fxGog1rd3lh+J5F3vQqY=";
+    hash = "sha256-SuXJzavdV0ZAD2X1kaJb0wjVkUTpKkEtQdePC1BKm+g=";
   };
 
   patches = [
@@ -436,6 +445,7 @@ buildPythonPackage.override { stdenv = torch.stdenv; } (finalAttrs: {
     "apache-tvm-ffi" # vllm does not depend on it directly, its version is only pinned for compatibility with tilelang (also removed).
     "tilelang"
     "fastsafetensors"
+    "mooncake-transfer-engine-rocm"
 
     # QuACK and Cutlass DSL seem to be added only for FA4
     # which in our case handles its own deps
@@ -622,6 +632,7 @@ buildPythonPackage.override { stdenv = torch.stdenv; } (finalAttrs: {
     (lib.cmakeFeature "DEEPGEMM_SRC_DIR" "${lib.getDev deepgemm}")
     (lib.cmakeFeature "FETCHCONTENT_SOURCE_DIR_CUTLASS" "${lib.getDev cutlass}")
     (lib.cmakeFeature "FLASH_MLA_SRC_DIR" "${lib.getDev flashmla}")
+    (lib.cmakeFeature "TML_FA4_SRC_DIR" "${lib.getDev tml-fa4}")
     (lib.cmakeFeature "FMHA_SM100_SRC_DIR" "${lib.getDev fmha-sm100}")
     (lib.cmakeFeature "VLLM_FLASH_ATTN_SRC_DIR" "${lib.getDev vllm-flash-attn'}")
     (lib.cmakeFeature "QUTLASS_SRC_DIR" "${lib.getDev qutlass}")
