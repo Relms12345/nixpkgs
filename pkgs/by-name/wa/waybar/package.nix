@@ -43,8 +43,9 @@
   wayland-scanner,
   wireplumber,
   wrapGAppsHook3,
+  cmake,
 
-  cavaSupport ? true,
+  cavaSupport ? false,
   enableManpages ? stdenv.buildPlatform.canExecute stdenv.hostPlatform,
   evdevSupport ? true,
   experimentalPatches ? true,
@@ -92,8 +93,8 @@ stdenv.mkDerivation (finalAttrs: {
   src = fetchFromGitHub {
     owner = "Alexays";
     repo = "Waybar";
-    tag = finalAttrs.version;
-    hash = "sha256-49ZKgK96a9uFip+svOdnw397xcEjiftXzd9gyv1H3sU=";
+    rev = "16843896794a9c595139318420f81f40e84f8c78";
+    hash = "sha256-Y/bf7OmtwrEhdRDTkh4OVAEZX5ixL+io0W/UPJuto+g=";
   };
 
   postUnpack = lib.optionalString cavaSupport ''
@@ -106,6 +107,7 @@ stdenv.mkDerivation (finalAttrs: {
   nativeBuildInputs = [
     meson
     ninja
+    cmake
     pkg-config
     wayland-scanner
     wrapGAppsHook3
@@ -156,7 +158,7 @@ stdenv.mkDerivation (finalAttrs: {
   nativeCheckInputs = [ catch2_3 ];
   doCheck = runTests;
 
-  mesonFlags =
+  mesonFlags = ["-Dwwan=disabled"] ++
     (lib.mapAttrsToList lib.mesonEnable {
       "cava" = cavaSupport && lib.asserts.assertMsg sndioSupport "Sndio support is required for Cava";
       "dbusmenu-gtk" = traySupport;
