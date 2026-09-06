@@ -171,18 +171,35 @@ in
       description = "LLM Gateway to provide model access, fallbacks and spend tracking across 100+ LLMs.";
       wantedBy = [ "multi-user.target" ];
       after = [ "network.target" ];
+      path = [
+        pkgs.nodejs
+        pkgs.openssl
+      ];
 
       environment = {
-        # LiteLLM will try to "restructure" (rewrite) its packaged UI files on startup
-        # to support extensionless routes (e.g. `/ui/login`). In Nix builds the packaged
-        # UI lives in the read-only Nix store, so point it at a writable runtime path.
         LITELLM_NON_ROOT = "true";
         LITELLM_UI_PATH = "${cfg.stateDir}/ui";
-
-        # LiteLLM sets TIKTOKEN_CACHE_DIR internally from this variable.
         CUSTOM_TIKTOKEN_CACHE_DIR = "${cfg.stateDir}/tiktoken-cache";
-      }
-      // cfg.environment;
+
+        HOME = cfg.stateDir;
+        XDG_CACHE_HOME = "${cfg.stateDir}/.cache";
+
+        PRISMA_BINARY_CACHE_DIR =
+          "${cfg.package}/share/litellm/prisma-cli";
+
+        PRISMA_QUERY_ENGINE_BINARY =
+          "${cfg.package}/lib/litellm-prisma/query-engine";
+
+        PRISMA_SCHEMA_ENGINE_BINARY =
+          "${cfg.package}/lib/litellm-prisma/schema-engine";
+
+        PRISMA_VERSION = "5.17.0";
+        PRISMA_EXPECTED_ENGINE_VERSION =
+          "393aa359c9ad4a4bb28630fb5613f9c281cde053";
+
+        PRISMA_USE_GLOBAL_NODE = "true";
+        PRISMA_USE_NODEJS_BIN = "false";
+      } // cfg.environment;
 
       serviceConfig =
         let
