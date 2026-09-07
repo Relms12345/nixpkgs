@@ -91,10 +91,8 @@ python3Packages.buildPythonApplication (finalAttrs: {
       aiosqlite
       alembic
       anthropic
-      apscheduler
       argon2-cffi
       asgiref
-      async-timeout
       authlib
       azure-ai-documentintelligence
       azure-identity
@@ -115,22 +113,16 @@ python3Packages.buildPythonApplication (finalAttrs: {
       fake-useragent
       fastapi
       faster-whisper
-      fpdf2
       ftfy
-      google-api-python-client
-      google-auth-httplib2
-      google-auth-oauthlib
       google-cloud-storage
-      google-genai
       google-re2
       googleapis-common-protos
       hiredis
-      httpx
+      httpx2
       itsdangerous
       joserfc
-      langchain
       langchain-classic
-      langchain-community
+      langchain-core
       langchain-text-splitters
       ldap3
       loguru
@@ -138,7 +130,6 @@ python3Packages.buildPythonApplication (finalAttrs: {
       markdown
       mcp
       msoffcrypto-tool
-      nltk
       onnxruntime
       openai
       opencv-python-headless
@@ -154,6 +145,7 @@ python3Packages.buildPythonApplication (finalAttrs: {
       opentelemetry-instrumentation-redis
       opentelemetry-instrumentation-requests
       opentelemetry-instrumentation-sqlalchemy
+      opentelemetry-instrumentation-system-metrics
       opentelemetry-sdk
       orjson
       pandas
@@ -165,18 +157,15 @@ python3Packages.buildPythonApplication (finalAttrs: {
       pydantic
       pydub
       pyjwt
-      pymdown-extensions
       pymysql
       pyotp
       pypandoc
       pypdf
       python-docx
-      python-dotenv
       python-mimeparse
       python-multipart
       python-pptx
       python-socketio
-      pytube
       pytz
       pyxlsb
       qrcode
@@ -185,7 +174,6 @@ python3Packages.buildPythonApplication (finalAttrs: {
       redis
       regex
       requests
-      restrictedpython
       sentence-transformers
       sentencepiece
       soundfile
@@ -199,12 +187,13 @@ python3Packages.buildPythonApplication (finalAttrs: {
       xlrd
       youtube-transcript-api
     ]
-    ++ (with httpx.optional-dependencies; brotli ++ cli ++ http2 ++ socks ++ zstd)
+    ++ (with httpx2.optional-dependencies; brotli ++ cli ++ http2 ++ socks ++ zstd)
     ++ uvicorn.optional-dependencies.standard
     ++ psycopg.optional-dependencies.c
     ++ pyjwt.optional-dependencies.crypto
     ++ sqlalchemy.optional-dependencies.asyncio
-    ++ starsessions.optional-dependencies.redis;
+    ++ starsessions.optional-dependencies.redis
+    ++ finalAttrs.passthru.optional-dependencies.all;
 
   optional-dependencies = with python3Packages; {
     postgres = [
@@ -228,7 +217,6 @@ python3Packages.buildPythonApplication (finalAttrs: {
       pinecone
       playwright
       pymilvus
-      pymongo
       qdrant-client
       weaviate-client
     ]
