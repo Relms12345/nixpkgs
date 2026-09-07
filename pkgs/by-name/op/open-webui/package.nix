@@ -157,9 +157,11 @@ python3Packages.buildPythonApplication (finalAttrs: {
       opensearch-py
       orjson
       pandas
+      pgvector
       pillow
       psutil
       psycopg
+      psycopg2
       pyarrow
       pycrdt
       pydantic
