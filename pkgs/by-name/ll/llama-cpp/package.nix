@@ -29,10 +29,6 @@
   ],
   blas,
 
-  fetchNpmDeps,
-  nodejs_latest,
-  npmHooks,
-
   pkg-config,
   metalSupport ? stdenv.hostPlatform.isDarwin && !openclSupport,
   vulkanSupport ? false,
@@ -110,8 +106,6 @@ effectiveStdenv.mkDerivation (finalAttrs: {
     cmake
     installShellFiles
     ninja
-    nodejs_latest
-    npmHooks.npmConfigHook
     pkg-config
   ]
   ++ optionals cudaSupport [
@@ -136,27 +130,12 @@ effectiveStdenv.mkDerivation (finalAttrs: {
     ++ optionals vulkanSupport vulkanBuildInputs
     ++ [ openssl ];
 
-  npmRoot = "tools/ui";
-  npmDepsHash = "sha256-2Q7XhaLAArmviOLdQsNbYTfdyDE5pW9lR26cRHEVl9k=";
-  npmDeps = fetchNpmDeps {
-    name = "${finalAttrs.pname}-${finalAttrs.version}-npm-deps";
-    inherit (finalAttrs) src patches;
-    preBuild = ''
-      pushd ${finalAttrs.npmRoot}
-    '';
-    hash = finalAttrs.npmDepsHash;
-  };
-
-  preConfigure = ''
-    pushd ${finalAttrs.npmRoot}
-    LLAMA_BUILD_NUMBER=${buildNumber} npm run build
-    popd
-  '';
-
   cmakeFlags = [
     (cmakeBool "GGML_NATIVE" false) # -march=native would make builds non-deterministic
     (cmakeBool "LLAMA_BUILD_EXAMPLES" false)
     (cmakeBool "LLAMA_BUILD_SERVER" true)
+    (cmakeBool "LLAMA_BUILD_UI" false)
+    (cmakeBool "LLAMA_USE_PREBUILT_UI" false)
     (cmakeBool "LLAMA_BUILD_TESTS" (finalAttrs.finalPackage.doCheck or false))
     (cmakeBool "LLAMA_BUILD_IS_DEV" false)
     (cmakeBool "LLAMA_OPENSSL" true)
