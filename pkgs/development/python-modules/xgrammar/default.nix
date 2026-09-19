@@ -11,6 +11,7 @@
   scikit-build-core,
 
   # dependencies
+  apache-tvm-ffi,
   mlx-lm,
   numpy,
   pydantic,
@@ -27,7 +28,7 @@
 
 buildPythonPackage rec {
   pname = "xgrammar";
-  version = "0.1.33";
+  version = "0.2.7";
   pyproject = true;
 
   src = fetchFromGitHub {
@@ -35,12 +36,8 @@ buildPythonPackage rec {
     repo = "xgrammar";
     tag = "v${version}";
     fetchSubmodules = true;
-    hash = "sha256-mliAmFBY3eLnUP+2HCRGX36KPUjaxn0Eb+2aKyDwdaM=";
+    hash = "sha256-1+xL0S/AbrKi+6/pJQvh2b03R5HM04mzazVe7k4jxVg=";
   };
-
-  patches = [
-    ./0001-fix-find-nanobind-from-python-module.patch
-  ];
 
   build-system = [
     cmake
@@ -51,6 +48,7 @@ buildPythonPackage rec {
   dontUseCmakeConfigure = true;
 
   dependencies = [
+    apache-tvm-ffi
     numpy
     pydantic
     torch
@@ -91,6 +89,7 @@ buildPythonPackage rec {
     "test_regex_converter"
     "test_serialize_compiled_grammar_with_hf_tokenizer"
     "test_tokenizer_info"
+    "test_builtin_structural_tag_alignment"
 
     # Torch not compiled with CUDA enabled
     "test_token_bitmask_operations"
@@ -102,7 +101,6 @@ buildPythonPackage rec {
   disabledTestPaths = [
     # Requires internet access
     "tests/python/test_structural_tag_converter.py"
-    "tests/python/test_structural_tag_for_model.py"
   ];
 
   pythonImportsCheck = [ "xgrammar" ];
