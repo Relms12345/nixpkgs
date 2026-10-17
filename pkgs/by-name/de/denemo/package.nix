@@ -32,7 +32,7 @@ stdenv.mkDerivation (finalAttrs: {
   version = "2.6.49";
 
   src = fetchgit {
-    url = "https://git.savannah.gnu.org/git/denemo.git";
+    url = "https://cgit.git.savannah.gnu.org/git/denemo.git";
     tag = "v${finalAttrs.version}";
     hash = "sha256-TUdaGOChqwK3fAmdaP9Lg2FGrEWF0yjwqsRXK7h/83Y=";
   };

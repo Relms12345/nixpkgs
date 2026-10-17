@@ -91,7 +91,7 @@ stdenv.mkDerivation (finalAttrs: {
   # One test fails.
   # ERROR: file: "libtest-asmobs", message: "file not found"
   # This is fixed here:
-  # <https://git.savannah.gnu.org/cgit/guile.git/commit/?h=branch_release-1-8&id=a0aa1e5b69d6ef0311aeea8e4b9a94eae18a1aaf>.
+  # <https://cgit.git.savannah.gnu.org/cgit/guile.git/commit/?h=branch_release-1-8&id=a0aa1e5b69d6ef0311aeea8e4b9a94eae18a1aaf>.
   doCheck = false;
   doInstallCheck = finalAttrs.doCheck;
 

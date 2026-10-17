@@ -22,7 +22,7 @@ stdenv.mkDerivation (finalAttrs: {
   enableParallelBuilding = true;
 
   # necessary to build on FreeBSD native pending inclusion of
-  # https://git.savannah.gnu.org/cgit/config.git/commit/?id=e4786449e1c26716e3f9ea182caf472e4dbc96e0
+  # https://cgit.git.savannah.gnu.org/cgit/config.git/commit/?id=e4786449e1c26716e3f9ea182caf472e4dbc96e0
   nativeBuildInputs = [ updateAutotoolsGnuConfigScriptsHook ];
 
   strictDeps = true;

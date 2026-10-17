@@ -80,7 +80,7 @@ stdenv.mkDerivation (finalAttrs: {
   strictDeps = true;
 
   # According to
-  # https://git.savannah.gnu.org/cgit/guix.git/tree/gnu/packages/guile.scm?h=a39207f7afd977e4e4299c6f0bb34bcb6d153818#n405
+  # https://cgit.git.savannah.gnu.org/cgit/guix.git/tree/gnu/packages/guile.scm?h=a39207f7afd977e4e4299c6f0bb34bcb6d153818#n405
   # starting with Guile 3.0.8, parallel builds can be done
   # bit-reproducibly as long as we're not cross-compiling
   enableParallelBuilding = lib.systems.equals stdenv.buildPlatform stdenv.hostPlatform;

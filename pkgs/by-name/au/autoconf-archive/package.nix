@@ -16,7 +16,7 @@ stdenv.mkDerivation (finalAttrs: {
 
   patches = [
     # cherry-picked changes from
-    # https://git.savannah.gnu.org/gitweb/?p=autoconf-archive.git;a=commit;h=fadde164479a926d6b56dd693ded2a4c36ed89f0
+    # https://cgit.git.savannah.gnu.org/gitweb/?p=autoconf-archive.git;a=commit;h=fadde164479a926d6b56dd693ded2a4c36ed89f0
     # can be removed on next release
     ./0001-ax_check_gl.m4-properly-quote-m4_fatal.patch
     ./0002-ax_check_glx.m4-properly-quote-m4_fatal.patch

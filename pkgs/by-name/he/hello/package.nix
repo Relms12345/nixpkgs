@@ -61,7 +61,7 @@ stdenv.mkDerivation (finalAttrs: {
       It is fully customizable.
     '';
     homepage = "https://www.gnu.org/software/hello/manual/";
-    changelog = "https://git.savannah.gnu.org/cgit/hello.git/plain/NEWS?h=v${finalAttrs.version}";
+    changelog = "https://cgit.git.savannah.gnu.org/cgit/hello.git/plain/NEWS?h=v${finalAttrs.version}";
     license = lib.licenses.gpl3Plus;
     maintainers = with lib.maintainers; [ stv0g ];
     mainProgram = "hello";

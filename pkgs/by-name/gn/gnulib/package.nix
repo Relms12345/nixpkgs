@@ -11,7 +11,7 @@ stdenv.mkDerivation {
   version = "20241001";
 
   src = fetchgit {
-    url = "https://git.savannah.gnu.org/git/gnulib.git";
+    url = "https://cgit.git.savannah.gnu.org/git/gnulib.git";
     rev = "0a01f6737dc5666c730bdfe6a038da53a4156cc2";
     hash = "sha256-kbmXnXXoaTPGwjUJvnHWCQFS2KGQ9fsjIyloNmkKdc4=";
   };
@@ -46,7 +46,7 @@ stdenv.mkDerivation {
   meta = {
     description = "Central location for code to be shared among GNU packages";
     homepage = "https://www.gnu.org/software/gnulib/";
-    changelog = "https://git.savannah.gnu.org/gitweb/?p=gnulib.git;a=blob;f=ChangeLog";
+    changelog = "https://cgit.git.savannah.gnu.org/gitweb/?p=gnulib.git;a=blob;f=ChangeLog";
     license = lib.licenses.gpl3Plus;
     mainProgram = "gnulib-tool";
     platforms = lib.platforms.unix;

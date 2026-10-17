@@ -76,7 +76,7 @@ stdenv.mkDerivation (finalAttrs: {
     ./riscv.patch
     # Fixes stability issues with 00-repl-server.test
     (fetchpatch {
-      url = "https://git.savannah.gnu.org/cgit/guile.git/patch/?id=2fbde7f02adb8c6585e9baf6e293ee49cd23d4c4";
+      url = "https://cgit.git.savannah.gnu.org/cgit/guile.git/patch/?id=2fbde7f02adb8c6585e9baf6e293ee49cd23d4c4";
       sha256 = "0p6c1lmw1iniq03z7x5m65kg3lq543kgvdb4nrxsaxjqf3zhl77v";
     })
   ]

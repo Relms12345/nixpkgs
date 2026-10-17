@@ -21,12 +21,12 @@ stdenv.mkDerivation (finalAttrs: {
   patches = [
     (fetchpatch {
       name = "CVE-2023-40305.part-1.patch";
-      url = "https://git.savannah.gnu.org/cgit/indent.git/patch/?id=df4ab2d19e247d059e0025789ba513418073ab6f";
+      url = "https://cgit.git.savannah.gnu.org/cgit/indent.git/patch/?id=df4ab2d19e247d059e0025789ba513418073ab6f";
       hash = "sha256-OLXBlYTdEuFK8SIsyC5Xr/hHWlvXiRqY2h79w+H5pGk=";
     })
     (fetchpatch {
       name = "CVE-2023-40305.part-2.patch";
-      url = "https://git.savannah.gnu.org/cgit/indent.git/patch/?id=2685cc0bef0200733b634932ea7399b6cf91b6d7";
+      url = "https://cgit.git.savannah.gnu.org/cgit/indent.git/patch/?id=2685cc0bef0200733b634932ea7399b6cf91b6d7";
       hash = "sha256-t+QF7N1aqQ28J2O8esZ2bc5K042cUuZR4MeMeuWIgPw=";
     })
   ];
