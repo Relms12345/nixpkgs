@@ -25,17 +25,17 @@ stdenv.mkDerivation (finalAttrs: {
   patches = [
     (fetchpatch {
       name = "CVE-2026-66484.patch";
-      url = "https://git.savannah.gnu.org/cgit/cpio.git/patch/?id=e2b9cbdd3354d2b1569b7390d1bc15c1930559ad";
+      url = "https://cgit.git.savannah.gnu.org/cgit/cpio.git/patch/?id=e2b9cbdd3354d2b1569b7390d1bc15c1930559ad";
       hash = "sha256-WjphVpMaI/ePg8MTZx+vvilKzpRAAzhAFwCwrbsPLRE=";
     })
     (fetchpatch {
       name = "CVE-2026-66485.patch";
-      url = "https://git.savannah.gnu.org/cgit/cpio.git/patch/?id=3cd514031371d8aeeaf2048aa10103e02831aaa9";
+      url = "https://cgit.git.savannah.gnu.org/cgit/cpio.git/patch/?id=3cd514031371d8aeeaf2048aa10103e02831aaa9";
       hash = "sha256-YDlROEYYlZERNzzlx1cQD29gV5IrU01aVcZ/sKpWrRo=";
     })
     (fetchpatch {
       name = "CVE-2026-66486.patch";
-      url = "https://git.savannah.gnu.org/cgit/cpio.git/patch/?id=2ff9600c9ef32e88759843cdbde74c8db5ae9b30";
+      url = "https://cgit.git.savannah.gnu.org/cgit/cpio.git/patch/?id=2ff9600c9ef32e88759843cdbde74c8db5ae9b30";
       excludes = [ "NEWS" ];
       hash = "sha256-qi9/9xhKnIyPpji63RgzbnnHZsJgwRnQVMaMiLxQipk=";
     })

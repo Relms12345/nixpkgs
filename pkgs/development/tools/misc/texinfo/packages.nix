@@ -22,7 +22,7 @@ let
   meta = {
     description = "GNU documentation system";
     homepage = "https://www.gnu.org/software/texinfo/";
-    changelog = "https://git.savannah.gnu.org/cgit/texinfo.git/plain/NEWS";
+    changelog = "https://cgit.git.savannah.gnu.org/cgit/texinfo.git/plain/NEWS";
     license = lib.licenses.gpl3Plus;
     platforms = lib.platforms.all;
     maintainers = with lib.maintainers; [ oxij ];

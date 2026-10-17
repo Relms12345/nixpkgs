@@ -47,7 +47,7 @@ stdenv.mkDerivation (finalAttrs: {
 
   meta = {
     homepage = "https://www.gnu.org/software/zile/";
-    changelog = "https://git.savannah.gnu.org/cgit/zile.git/plain/NEWS?h=v${finalAttrs.version}";
+    changelog = "https://cgit.git.savannah.gnu.org/cgit/zile.git/plain/NEWS?h=v${finalAttrs.version}";
     description = "Implements Lua Editors";
     longDescription = ''
       GNU Zile is a text editor development kit, so that you can (relatively)

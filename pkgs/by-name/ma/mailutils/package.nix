@@ -155,7 +155,7 @@ stdenv.mkDerivation (finalAttrs: {
     maintainers = [ ];
 
     homepage = "https://www.gnu.org/software/mailutils/";
-    changelog = "https://git.savannah.gnu.org/cgit/mailutils.git/tree/NEWS";
+    changelog = "https://cgit.git.savannah.gnu.org/cgit/mailutils.git/tree/NEWS";
 
     # Some of the dependencies fail to build on {cyg,dar}win.
     platforms = lib.platforms.gnu ++ lib.platforms.unix;

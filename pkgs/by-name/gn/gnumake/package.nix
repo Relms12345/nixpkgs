@@ -28,7 +28,7 @@ stdenv.mkDerivation (finalAttrs: {
 
   # To update patches:
   #  $ version=4.4.1
-  #  $ git clone https://git.savannah.gnu.org/git/make.git
+  #  $ git clone https://cgit.git.savannah.gnu.org/git/make.git
   #  $ cd make && git checkout -b nixpkgs $version
   #  $ git am --directory=../patches
   #  $ # make changes, resolve conflicts, etc.
