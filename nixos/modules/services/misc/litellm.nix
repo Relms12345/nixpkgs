@@ -10,6 +10,9 @@ let
   cfg = config.services.litellm;
   settingsFormat = pkgs.formats.yaml { };
 
+  prismaEngines = pkgs.prisma-engines_6;
+  prismaCli = pkgs.prisma_6;
+
   tiktokenEncodings = {
     cl100k_base = {
       url = "https://openaipublic.blob.core.windows.net/encodings/cl100k_base.tiktoken";
@@ -171,7 +174,12 @@ in
       description = "LLM Gateway to provide model access, fallbacks and spend tracking across 100+ LLMs.";
       wantedBy = [ "multi-user.target" ];
       after = [ "network.target" ];
-
+      path = [
+        prismaCli
+        prismaEngines
+        pkgs.nodejs
+        pkgs.openssl
+      ];
       environment = {
         # LiteLLM will try to "restructure" (rewrite) its packaged UI files on startup
         # to support extensionless routes (e.g. `/ui/login`). In Nix builds the packaged
@@ -181,8 +189,21 @@ in
 
         # LiteLLM sets TIKTOKEN_CACHE_DIR internally from this variable.
         CUSTOM_TIKTOKEN_CACHE_DIR = "${cfg.stateDir}/tiktoken-cache";
-      }
-      // cfg.environment;
+
+        HOME = cfg.stateDir;
+        XDG_CACHE_HOME = "${cfg.stateDir}/.cache";
+        PRISMA_HOME_DIR = cfg.stateDir;
+
+        PRISMA_OFFLINE_MODE = "true";
+        PRISMA_CLI_PATH = "${prismaCli}/bin/prisma";
+        # Ephemeral, writable, recreated empty each start (see RuntimeDirectory);
+        # litellm_proxy_extras reseeds it from the read-only package on boot.
+        LITELLM_MIGRATION_DIR = "/run/litellm/migrations";
+        PRISMA_QUERY_ENGINE_BINARY = "${prismaEngines}/bin/query-engine";
+        PRISMA_QUERY_ENGINE_LIBRARY = "${prismaEngines}/lib/libquery_engine.node";
+        PRISMA_SCHEMA_ENGINE_BINARY = "${prismaEngines}/bin/schema-engine";
+        PRISMA_FMT_BINARY = "${prismaEngines}/bin/prisma-fmt";
+      } // cfg.environment;
 
       serviceConfig =
         let
@@ -206,13 +227,16 @@ in
             "litellm/ui"
             "litellm/tiktoken-cache"
           ];
-          RuntimeDirectory = "litellm";
           RuntimeDirectoryMode = "0755";
           PrivateTmp = true;
-          DynamicUser = true;
+          DynamicUser = false;
           DevicePolicy = "closed";
           LockPersonality = true;
-          PrivateUsers = true;
+          PrivateUsers = false;
+          User = "litellm";
+          Group = "litellm";
+          RuntimeDirectory = ["litellm" "litellm/migrations"];
+          ReadWritePaths = [cfg.stateDir];
           ProtectHome = true;
           ProtectHostname = true;
           ProtectKernelLogs = true;
@@ -231,6 +255,14 @@ in
           ProtectClock = true;
           ProtectProc = "invisible";
         };
+    };
+
+    users.groups.litellm = {};
+    users.users.litellm = {
+      isSystemUser = true;
+      group = "litellm";
+      home = cfg.stateDir;
+      createHome = true;
     };
 
     networking.firewall = lib.mkIf cfg.openFirewall { allowedTCPPorts = [ cfg.port ]; };
